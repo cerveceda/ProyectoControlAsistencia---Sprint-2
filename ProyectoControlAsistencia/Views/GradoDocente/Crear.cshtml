@@ -1,0 +1,138 @@
+﻿@model ENTIDAD.GradoDocente
+
+@{
+    ViewBag.Title = "Crear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form action="@Url.Action("Crear","GradoDocente")" method="post" id="frmGradoDocente">
+
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>GradoDocente</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<div class="form-group">
+                <label class="control-label col-md-2"> Dni Docente</label>
+
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CodGradoDocente, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CodGradoDocente, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Codigo del Grado</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="CodGrado" name="CodGrado" placeholder="Ingrese el Codigo del Grado)">
+                @Html.ValidationMessageFor(model => model.CodGrado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"> Dni Docente</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="DniDocente" name="DniDocente" placeholder="Ingrese el Dni del Docente">
+                @Html.ValidationMessageFor(model => model.DniDocente, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+</form>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
+    <script>
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //getData();
+        //function getData() {
+        //    $.ajax({
+        //        type: "GET",
+        //        url: '/Tipo/GetGrados',
+        //        dataType: "json",
+        //        success: function (result) {
+        //            $.each(result.data, function (key, item) {
+        //                $("#Idtipo").append('<option value' + item.Idtipo + '>' + item.Idtipo +  '</option>');
+        //            });
+        //        },
+        //        error: function (data) {
+        //            alert('error');
+        //        }
+        //    });
+
+        //}
+        ////////////////////////////////////////////////////////////////////////////////////////
+
+        $("#frmGradoDocente").submit(function (event) {
+
+            event.preventDefault();
+
+            var CodGrado = $("#CodGrado").val();
+            var DniDocente = $("#DniDocente").val();
+           
+
+            if ($.trim(CodGrado) == "" || $.trim(DniDocente) == "" ) {
+                alert("Necesita Ingresar todos los campos");
+                return;
+            }
+
+            if ($.trim(CodGrado).length != 3) {
+                alert("Necesita Ingresar un Codigo de Grado Valido");
+                return;
+            }
+            if ($.trim(DniDocente).length != 8) {
+                alert("Necesita Ingresar un DNI Valido");
+                return;
+            }
+
+            var post_url = $(this).attr("action");
+            var request_method = $(this).attr("method");
+            var form_data = $(this).serializeArray();
+            console.log(form_data);
+
+            LoadingOverlayShow("#frmGradoDocente");
+
+            $.ajax({
+                url: post_url,
+                type: request_method,
+                data: form_data
+            }).done(function (response) {
+                console.log(response);
+
+                LoadingOverlayHide("#frmGradoDocente");
+
+                if (response.ok) {
+                    alert("Asignacion correctamente");
+                    window.location = response.toRedirect;
+                }
+                else {
+                    alert(response.msg);
+                }
+
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                LoadingOverlayShow("#frmGradoDocente");
+            });
+
+        });
+
+
+
+
+
+    </script>
+}

@@ -1,0 +1,149 @@
+﻿@model ENTIDAD.Grado
+
+@{
+    ViewBag.Title = "Crear un Nuevo Grado";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+<form action="@Url.Action("Crear","Grado")" method="post" id="frmGrado">
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h2>Crear un Nuevo Grado</h2>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2"> Codigo Grado</label>
+            <div class="col-md-10">
+
+                <input type="text" class="form-control" id="CodGrado" name="CodGrado" placeholder="Ingrese el  Codigo del Grado">
+                @Html.ValidationMessageFor(model => model.CodGrado, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"> Nombre del Grado</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="Nombre" name="Nombre" placeholder="Ingrese el  Nombre del Grado">
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"> Seccion</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="Seccion" name="Seccion" placeholder="Ingrese la seccion del Grado">
+                @Html.ValidationMessageFor(model => model.Seccion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"> Nivel</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="Nivel" name="Nivel" placeholder="Ingrese el nivel del Grado">
+                @Html.ValidationMessageFor(model => model.Nivel, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Crear" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+    <div>
+        @Html.ActionLink("Regresar", "Index", "Grado")
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+        
+
+        <script>
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //getData();
+            //function getData() {
+            //    $.ajax({
+            //        type: "GET",
+            //        url: '/Tipo/GetGrados',
+            //        dataType: "json",
+            //        success: function (result) {
+            //            $.each(result.data, function (key, item) {
+            //                $("#Idtipo").append('<option value' + item.Idtipo + '>' + item.Idtipo +  '</option>');
+            //            });
+            //        },
+            //        error: function (data) {
+            //            alert('error');
+            //        }
+            //    });
+
+            //}
+            ////////////////////////////////////////////////////////////////////////////////////////
+
+            $("#frmGrado").submit(function (event) {
+
+                event.preventDefault();
+
+                var CodGrado = $("#CodGrado").val();
+                var Nombre = $("#Nombre").val();
+                var Seccion = $("#Seccion").val();
+                var Nivel = $("#Nivel").val();
+
+                if ($.trim(CodGrado) == "" || $.trim(Nombre) == "" || $.trim(Seccion) == "" || $.trim(Nivel) == "") {
+                    alert("Necesita Ingresar todos los campos");
+                    return;
+                }
+
+                if ($.trim(CodGrado).length != 3) {
+                    alert("Necesita Ingresar un Codigo Valido");
+                    return;
+                }
+                if ($.trim(Seccion).length != 1) {
+                    alert("La Seccion solo es una letra ejemplo: A, B, C");
+                    return;
+                }
+
+                var post_url = $(this).attr("action");
+                var request_method = $(this).attr("method");
+                var form_data = $(this).serializeArray();
+                console.log(form_data);
+
+                LoadingOverlayShow("#frmGrado");
+
+                $.ajax({
+                    url: post_url,
+                    type: request_method,
+                    data: form_data
+                }).done(function (response) {
+                    console.log(response);
+
+                    LoadingOverlayHide("#frmGrado");
+
+                    if (response.ok) {
+                        alert("Grado creado correctamente");
+                        window.location = response.toRedirect;
+                    }
+                    else {
+                        alert(response.msg);
+                    }
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    LoadingOverlayShow("#frmGrado");
+                });
+
+            });
+
+      
+
+
+        </script>
+
+    }
+

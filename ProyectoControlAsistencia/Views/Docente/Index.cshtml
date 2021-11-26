@@ -1,0 +1,134 @@
+﻿@model IEnumerable<ENTIDAD.Docente>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    @*<link href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />*@
+    <link href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+}
+
+<h2>Lista de Docentes</h2>
+
+<p>
+
+    <a class="btn btn-primary" href="@Url.Action("Crear","Docente")"><i class="glyphicon glyphicon-plus"></i> Nuevo Registro</a>
+</p>
+<table class="table" id="tabledocente">
+    <thead>
+        <tr>
+            <th>
+                DNI
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Correo)
+            </th>
+            <th>
+                Contraseña
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Appaterno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apmaterno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombres)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TelCelu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Direccion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FecNacimiento)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DniDocente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Correo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Contrasena)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Appaterno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apmaterno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombres)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genero)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TelCelu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
+                <td>
+                    @item.FecNacimiento.ToShortDateString()
+
+                </td>
+                <td>
+                    <a class="btn btn-primary btn-xs" href="@Url.Action("Editar","Docente", new { id=item.DniDocente})"><i class="glyphicon glyphicon-edit"></i>Editar</a>
+                    <a class="btn btn-info btn-xs" href="@Url.Action("Detalles","Docente", new { id=item.DniDocente})"><i class="glyphicon glyphicon-pencil"></i>Detalles</a>
+                    <a class="btn btn-danger btn-xs" title="Eliminar" href="@Url.Action("Eliminar","Docente", new { id=item.DniDocente})"><i class="glyphicon glyphicon-trash"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+
+
+</table>
+
+@section scripts{
+    @*<script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>*@
+    <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script>
+        //$(document).ready(function () {
+        //    $('#tabledocente').DataTable();
+        //});
+        //$(document).ready(function () {
+        //    $('#tabledocente').DataTable({
+        //        "columnDefs": [
+        //            {
+        //                "targets": [2],
+        //                "visible": false,
+        //                "searchable": false
+        //            }
+
+        //        ],
+        //        "pageLength": 20,
+        //        lengthMenu: [2, 10, 20],
+        //    });
+        //});
+
+        $(document).ready(function () {
+            $('#tabledocente').DataTable({
+                "scrollX": true,
+                "pageLength": 20,
+                lengthMenu: [2, 10, 20],
+            });
+        });
+    </script>
+
+}

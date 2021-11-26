@@ -1,0 +1,202 @@
+﻿@model ENTIDAD.Docente
+
+@{
+    ViewBag.Title = "Crear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+<form action="@Url.Action("Crear","Docente")" method="post" id="frmDocente">
+
+
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Registrar un nuevo Docente</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2"> Dni Docente</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="DniDocente" name="DniDocente" placeholder="Ingrese el  DNI">
+                @Html.ValidationMessageFor(model => model.DniDocente, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Correo</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="Correo" name="Correo" placeholder="Ingrese el  Correo">
+                @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"> Contraseña</label>
+            <div class="col-md-10">
+                <input type="password" class="form-control" id="Contrasena" name="Contrasena" placeholder="Ingrese la  Contraseña">
+                @Html.ValidationMessageFor(model => model.Contrasena, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"> Apellido Paterno</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="Appaterno" name="Appaterno" placeholder="Ingrese el apellido paterno">
+                @Html.ValidationMessageFor(model => model.Appaterno, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"> Apellido Materno</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="Apmaterno" name="Apmaterno" placeholder="Ingrese el apellido materno">
+                @Html.ValidationMessageFor(model => model.Apmaterno, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"> Nombres</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="Nombres" name="Nombres" placeholder="Ingrese el/los Nombre(s)">
+                @Html.ValidationMessageFor(model => model.Nombres, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"> Genero</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="Genero" name="Genero" placeholder="Ingrese el Genero">
+                @Html.ValidationMessageFor(model => model.Genero, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"> Telefono o Celular</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="TelCelu" name="TelCelu" placeholder="Ingrese el Telefono o Celular">
+                @Html.ValidationMessageFor(model => model.TelCelu, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"> Direccion</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="Direccion" name="Direccion" placeholder="Ingrese la Direccion">
+                @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2"> Fecha de Nacimiento</label>
+            <div class="col-md-10">
+                <input type="date" class="form-control" name="FecNacimiento" id="FecNacimiento" />
+                @Html.ValidationMessageFor(model => model.FecNacimiento, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Registrar" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+</form>
+<div>
+    @Html.ActionLink("Regresar", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
+
+    <script>
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //getData();
+        //function getData() {
+        //    $.ajax({
+        //        type: "GET",
+        //        url: '/Tipo/GetGrados',
+        //        dataType: "json",
+        //        success: function (result) {
+        //            $.each(result.data, function (key, item) {
+        //                $("#Idtipo").append('<option value' + item.Idtipo + '>' + item.Idtipo +  '</option>');
+        //            });
+        //        },
+        //        error: function (data) {
+        //            alert('error');
+        //        }
+        //    });
+
+        //}
+        ////////////////////////////////////////////////////////////////////////////////////////
+
+        $("#frmDocente").submit(function (event) {
+
+            event.preventDefault();
+
+            var DniDocente = $("#DniDocente").val();
+            var Correo = $("#Correo").val();
+            var Contrasena = $("#Contrasena").val();
+            var Appaterno = $("#Appaterno").val();
+            var Apmaterno = $("#Apmaterno").val();
+            var Nombres = $("#Nombres").val();
+            var Genero = $("#Genero").val();
+            var TelCelu = $("#TelCelu").val();
+            var Direccion = $("#Direccion").val();
+            var FecNacimiento = $("#FecNacimiento").val();
+            
+            if ($.trim(DniDocente) == "" || $.trim(Correo) == "" || $.trim(Contrasena) == "" || $.trim(Appaterno) == "" || $.trim(Apmaterno) == ""
+                || $.trim(Apmaterno) == "" || $.trim(Nombres) == "" || $.trim(Genero) == "" || $.trim(TelCelu) == "" || $.trim(Direccion) == "" || $.trim(FecNacimiento) == "") {
+                alert("Necesita Ingresar todos los campos");
+                return;
+            }
+
+            if ($.trim(DniDocente).length != 8  ) {
+                alert("Necesita Ingresar un DniValido");
+                return;
+            }
+
+            var post_url = $(this).attr("action");
+            var request_method = $(this).attr("method");
+            var form_data = $(this).serializeArray();
+            console.log(form_data);
+
+            LoadingOverlayShow("#frmDocente");
+
+            $.ajax({
+                url: post_url,
+                type: request_method,
+                data: form_data
+            }).done(function (response) {
+                console.log(response);
+
+                LoadingOverlayHide("#frmDocente");
+
+                if (response.ok) {
+                    alert("Docente creado correctamente");
+                    window.location = response.toRedirect;
+                }
+                else {
+                    alert(response.msg);
+                }
+
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                LoadingOverlayShow("#frmDocente");
+            });
+
+        });
+
+      
+
+
+
+    </script>
+
+}

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<ENTIDAD.GradoDocente>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+}
+<h2>Lista de Grados y Docentes </h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create") @*eliminar*@
+    <a class="btn btn-primary" href="@Url.Action("Crear","GradoDocente")"><i class="glyphicon glyphicon-plus"></i> Asignacion de Docentes a Grados</a>
+</p>
+<table class="table" id="tablegradodocente">
+    <thead>
+        <tr>
+            <th>
+                Codigo Grado Docente
+            </th>
+            <th>
+                Codigo del Grado
+            </th>
+            <th>
+                Dni del Docente
+            </th>
+            <th></th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodGradoDocente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodGrado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DniDocente)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+
+                    <a class="btn btn-primary btn-xs" href="@Url.Action("Editar","GradoDocente", new { id=item.CodGradoDocente})"><i class="glyphicon glyphicon-edit"></i>Editar</a>
+                    <a class="btn btn-info btn-xs" href="@Url.Action("Detalles","GradoDocente", new { id=item.CodGradoDocente})"><i class="glyphicon glyphicon-pencil"></i>Detalles</a>
+                    <a class="btn btn-danger btn-xs" title="Eliminar" href="@Url.Action("Eliminar","GradoDocente", new { id=item.CodGradoDocente})"><i class="glyphicon glyphicon-trash"></i></a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+
+
+
+</table>
+@section scripts{
+
+    <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#tablegrados').DataTable({
+                "pageLength": 20,
+                lengthMenu: [2, 10, 20],
+
+            });
+
+        });
+    </script>
+
+}

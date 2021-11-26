@@ -1,0 +1,515 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ProyectosDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="TAlumno">
+          <Key>
+            <PropertyRef Name="DniAlumno" />
+          </Key>
+          <Property Name="DniAlumno" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Appaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apmaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombres" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Genero" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FecNacimiento" Type="date" Nullable="false" />
+          <Property Name="DniApoderado" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="CodGrado" Type="varchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TApoderado">
+          <Key>
+            <PropertyRef Name="DniApoderado" />
+          </Key>
+          <Property Name="DniApoderado" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contrasenia" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Appaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apmaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombres" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Genero" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Parentesco" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TelCelu" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FecNacimiento" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TAsistencia">
+          <Key>
+            <PropertyRef Name="CodAsistencia" />
+          </Key>
+          <Property Name="CodAsistencia" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Fecha" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Hora" Type="varchar" MaxLength="5" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'BDControlAsistencia.dbo.TAsistenciaTAlumno' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="TAsistenciaTAlumno">
+          <Key>
+            <PropertyRef Name="DniAlumno" />
+            <PropertyRef Name="Estado" />
+          </Key>
+          <Property Name="CodAsistencia" Type="varchar" MaxLength="15" />
+          <Property Name="DniAlumno" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Estado" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TDocente">
+          <Key>
+            <PropertyRef Name="DniDocente" />
+          </Key>
+          <Property Name="DniDocente" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contrasena" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Appaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apmaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombres" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Genero" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="TelCelu" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FecNacimiento" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TGrado">
+          <Key>
+            <PropertyRef Name="CodGrado" />
+          </Key>
+          <Property Name="CodGrado" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="20" />
+          <Property Name="Seccion" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="Nivel" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TGradoTDocente">
+          <Key>
+            <PropertyRef Name="CodGradoDocente" />
+          </Key>
+          <Property Name="CodGradoDocente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CodGrado" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="DniDocente" Type="varchar" MaxLength="8" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__TAlumno__CodGrad__2F10007B">
+          <End Role="TGrado" Type="Self.TGrado" Multiplicity="1" />
+          <End Role="TAlumno" Type="Self.TAlumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TGrado">
+              <PropertyRef Name="CodGrado" />
+            </Principal>
+            <Dependent Role="TAlumno">
+              <PropertyRef Name="CodGrado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TAlumno__DniApod__2E1BDC42">
+          <End Role="TApoderado" Type="Self.TApoderado" Multiplicity="1" />
+          <End Role="TAlumno" Type="Self.TAlumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TApoderado">
+              <PropertyRef Name="DniApoderado" />
+            </Principal>
+            <Dependent Role="TAlumno">
+              <PropertyRef Name="DniApoderado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TAsistenc__CodAs__32E0915F">
+          <End Role="TAsistencia" Type="Self.TAsistencia" Multiplicity="0..1" />
+          <End Role="TAsistenciaTAlumno" Type="Self.TAsistenciaTAlumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAsistencia">
+              <PropertyRef Name="CodAsistencia" />
+            </Principal>
+            <Dependent Role="TAsistenciaTAlumno">
+              <PropertyRef Name="CodAsistencia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TAsistenc__DniAl__33D4B598">
+          <End Role="TAlumno" Type="Self.TAlumno" Multiplicity="1" />
+          <End Role="TAsistenciaTAlumno" Type="Self.TAsistenciaTAlumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAlumno">
+              <PropertyRef Name="DniAlumno" />
+            </Principal>
+            <Dependent Role="TAsistenciaTAlumno">
+              <PropertyRef Name="DniAlumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TGradoTDo__CodGr__286302EC">
+          <End Role="TGrado" Type="Self.TGrado" Multiplicity="1" />
+          <End Role="TGradoTDocente" Type="Self.TGradoTDocente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TGrado">
+              <PropertyRef Name="CodGrado" />
+            </Principal>
+            <Dependent Role="TGradoTDocente">
+              <PropertyRef Name="CodGrado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TGradoTDo__DniDo__29572725">
+          <End Role="TDocente" Type="Self.TDocente" Multiplicity="1" />
+          <End Role="TGradoTDocente" Type="Self.TGradoTDocente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TDocente">
+              <PropertyRef Name="DniDocente" />
+            </Principal>
+            <Dependent Role="TGradoTDocente">
+              <PropertyRef Name="DniDocente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProyectosDBModelStoreContainer">
+          <EntitySet Name="TAlumno" EntityType="Self.TAlumno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TApoderado" EntityType="Self.TApoderado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TAsistencia" EntityType="Self.TAsistencia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TDocente" EntityType="Self.TDocente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TGrado" EntityType="Self.TGrado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TGradoTDocente" EntityType="Self.TGradoTDocente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TAsistenciaTAlumno" EntityType="Self.TAsistenciaTAlumno" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TAsistenciaTAlumno].[CodAsistencia] AS [CodAsistencia], 
+    [TAsistenciaTAlumno].[DniAlumno] AS [DniAlumno], 
+    [TAsistenciaTAlumno].[Estado] AS [Estado]
+    FROM [dbo].[TAsistenciaTAlumno] AS [TAsistenciaTAlumno]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__TAlumno__CodGrad__2F10007B" Association="Self.FK__TAlumno__CodGrad__2F10007B">
+            <End Role="TGrado" EntitySet="TGrado" />
+            <End Role="TAlumno" EntitySet="TAlumno" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TAlumno__DniApod__2E1BDC42" Association="Self.FK__TAlumno__DniApod__2E1BDC42">
+            <End Role="TApoderado" EntitySet="TApoderado" />
+            <End Role="TAlumno" EntitySet="TAlumno" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TAsistenc__CodAs__32E0915F" Association="Self.FK__TAsistenc__CodAs__32E0915F">
+            <End Role="TAsistencia" EntitySet="TAsistencia" />
+            <End Role="TAsistenciaTAlumno" EntitySet="TAsistenciaTAlumno" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TAsistenc__DniAl__33D4B598" Association="Self.FK__TAsistenc__DniAl__33D4B598">
+            <End Role="TAlumno" EntitySet="TAlumno" />
+            <End Role="TAsistenciaTAlumno" EntitySet="TAsistenciaTAlumno" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TGradoTDo__CodGr__286302EC" Association="Self.FK__TGradoTDo__CodGr__286302EC">
+            <End Role="TGrado" EntitySet="TGrado" />
+            <End Role="TGradoTDocente" EntitySet="TGradoTDocente" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TGradoTDo__DniDo__29572725" Association="Self.FK__TGradoTDo__DniDo__29572725">
+            <End Role="TDocente" EntitySet="TDocente" />
+            <End Role="TGradoTDocente" EntitySet="TGradoTDocente" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProyectosDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Alumno">
+          <Key>
+            <PropertyRef Name="DniAlumno" />
+          </Key>
+          <Property Name="DniAlumno" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Appaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apmaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Genero" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FecNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DniApoderado" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CodGrado" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TGrado" Relationship="Self.FK__TAlumno__CodGrad__2F10007B" FromRole="TAlumno" ToRole="TGrado" />
+          <NavigationProperty Name="TApoderado" Relationship="Self.FK__TAlumno__DniApod__2E1BDC42" FromRole="TAlumno" ToRole="TApoderado" />
+          <NavigationProperty Name="TAsistenciaTAlumno" Relationship="Self.FK__TAsistenc__DniAl__33D4B598" FromRole="TAlumno" ToRole="TAsistenciaTAlumno" />
+        </EntityType>
+        <EntityType Name="Apoderado">
+          <Key>
+            <PropertyRef Name="DniApoderado" />
+          </Key>
+          <Property Name="DniApoderado" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contrasenia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Appaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apmaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Genero" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Parentesco" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TelCelu" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FecNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="TAlumno" Relationship="Self.FK__TAlumno__DniApod__2E1BDC42" FromRole="TApoderado" ToRole="TAlumno" />
+        </EntityType>
+        <EntityType Name="Asistencia">
+          <Key>
+            <PropertyRef Name="CodAsistencia" />
+          </Key>
+          <Property Name="CodAsistencia" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Fecha" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Hora" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TAsistenciaTAlumno" Relationship="Self.FK__TAsistenc__CodAs__32E0915F" FromRole="TAsistencia" ToRole="TAsistenciaTAlumno" />
+        </EntityType>
+        <EntityType Name="Docente">
+          <Key>
+            <PropertyRef Name="DniDocente" />
+          </Key>
+          <Property Name="DniDocente" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contrasena" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Appaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apmaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Genero" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TelCelu" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FecNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="TGradoTDocente" Relationship="Self.FK__TGradoTDo__DniDo__29572725" FromRole="TDocente" ToRole="TGradoTDocente" />
+        </EntityType>
+        <EntityType Name="Grado">
+          <Key>
+            <PropertyRef Name="CodGrado" />
+          </Key>
+          <Property Name="CodGrado" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Seccion" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nivel" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TAlumno" Relationship="Self.FK__TAlumno__CodGrad__2F10007B" FromRole="TGrado" ToRole="TAlumno" />
+          <NavigationProperty Name="TGradoTDocente" Relationship="Self.FK__TGradoTDo__CodGr__286302EC" FromRole="TGrado" ToRole="TGradoTDocente" />
+        </EntityType>
+        <EntityType Name="GradoDocente">
+          <Key>
+            <PropertyRef Name="CodGradoDocente" />
+          </Key>
+          <Property Name="CodGradoDocente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CodGrado" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DniDocente" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TDocente" Relationship="Self.FK__TGradoTDo__DniDo__29572725" FromRole="TGradoTDocente" ToRole="TDocente" />
+          <NavigationProperty Name="TGrado" Relationship="Self.FK__TGradoTDo__CodGr__286302EC" FromRole="TGradoTDocente" ToRole="TGrado" />
+        </EntityType>
+        <EntityType Name="AsistenciaTAlumno">
+          <Key>
+            <PropertyRef Name="DniAlumno" />
+            <PropertyRef Name="Estado" />
+          </Key>
+          <Property Name="CodAsistencia" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="DniAlumno" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TAlumno" Relationship="Self.FK__TAsistenc__DniAl__33D4B598" FromRole="TAsistenciaTAlumno" ToRole="TAlumno" />
+          <NavigationProperty Name="TAsistencia" Relationship="Self.FK__TAsistenc__CodAs__32E0915F" FromRole="TAsistenciaTAlumno" ToRole="TAsistencia" />
+        </EntityType>
+        <Association Name="FK__TAlumno__CodGrad__2F10007B">
+          <End Role="TGrado" Type="ProyectosDBModel.Grado" Multiplicity="1" />
+          <End Role="TAlumno" Type="ProyectosDBModel.Alumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TGrado">
+              <PropertyRef Name="CodGrado" />
+            </Principal>
+            <Dependent Role="TAlumno">
+              <PropertyRef Name="CodGrado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TAlumno__DniApod__2E1BDC42">
+          <End Role="TApoderado" Type="ProyectosDBModel.Apoderado" Multiplicity="1" />
+          <End Role="TAlumno" Type="ProyectosDBModel.Alumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TApoderado">
+              <PropertyRef Name="DniApoderado" />
+            </Principal>
+            <Dependent Role="TAlumno">
+              <PropertyRef Name="DniApoderado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TAsistenc__DniAl__33D4B598">
+          <End Role="TAlumno" Type="ProyectosDBModel.Alumno" Multiplicity="1" />
+          <End Role="TAsistenciaTAlumno" Type="ProyectosDBModel.AsistenciaTAlumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAlumno">
+              <PropertyRef Name="DniAlumno" />
+            </Principal>
+            <Dependent Role="TAsistenciaTAlumno">
+              <PropertyRef Name="DniAlumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TAsistenc__CodAs__32E0915F">
+          <End Role="TAsistencia" Type="ProyectosDBModel.Asistencia" Multiplicity="0..1" />
+          <End Role="TAsistenciaTAlumno" Type="ProyectosDBModel.AsistenciaTAlumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAsistencia">
+              <PropertyRef Name="CodAsistencia" />
+            </Principal>
+            <Dependent Role="TAsistenciaTAlumno">
+              <PropertyRef Name="CodAsistencia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TGradoTDo__DniDo__29572725">
+          <End Role="TDocente" Type="ProyectosDBModel.Docente" Multiplicity="1" />
+          <End Role="TGradoTDocente" Type="ProyectosDBModel.GradoDocente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TDocente">
+              <PropertyRef Name="DniDocente" />
+            </Principal>
+            <Dependent Role="TGradoTDocente">
+              <PropertyRef Name="DniDocente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TGradoTDo__CodGr__286302EC">
+          <End Role="TGrado" Type="ProyectosDBModel.Grado" Multiplicity="1" />
+          <End Role="TGradoTDocente" Type="ProyectosDBModel.GradoDocente" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TGrado">
+              <PropertyRef Name="CodGrado" />
+            </Principal>
+            <Dependent Role="TGradoTDocente">
+              <PropertyRef Name="CodGrado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProyectosContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="TAlumno" EntityType="ProyectosDBModel.Alumno" />
+          <EntitySet Name="TApoderado" EntityType="ProyectosDBModel.Apoderado" />
+          <EntitySet Name="TAsistencia" EntityType="ProyectosDBModel.Asistencia" />
+          <EntitySet Name="TDocente" EntityType="ProyectosDBModel.Docente" />
+          <EntitySet Name="TGrado" EntityType="ProyectosDBModel.Grado" />
+          <EntitySet Name="TGradoTDocente" EntityType="ProyectosDBModel.GradoDocente" />
+          <EntitySet Name="TAsistenciaTAlumno" EntityType="ProyectosDBModel.AsistenciaTAlumno" />
+          <AssociationSet Name="FK__TAlumno__CodGrad__2F10007B" Association="Self.FK__TAlumno__CodGrad__2F10007B">
+            <End Role="TGrado" EntitySet="TGrado" />
+            <End Role="TAlumno" EntitySet="TAlumno" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TAlumno__DniApod__2E1BDC42" Association="Self.FK__TAlumno__DniApod__2E1BDC42">
+            <End Role="TApoderado" EntitySet="TApoderado" />
+            <End Role="TAlumno" EntitySet="TAlumno" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TAsistenc__DniAl__33D4B598" Association="Self.FK__TAsistenc__DniAl__33D4B598">
+            <End Role="TAlumno" EntitySet="TAlumno" />
+            <End Role="TAsistenciaTAlumno" EntitySet="TAsistenciaTAlumno" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TAsistenc__CodAs__32E0915F" Association="Self.FK__TAsistenc__CodAs__32E0915F">
+            <End Role="TAsistencia" EntitySet="TAsistencia" />
+            <End Role="TAsistenciaTAlumno" EntitySet="TAsistenciaTAlumno" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TGradoTDo__DniDo__29572725" Association="Self.FK__TGradoTDo__DniDo__29572725">
+            <End Role="TDocente" EntitySet="TDocente" />
+            <End Role="TGradoTDocente" EntitySet="TGradoTDocente" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TGradoTDo__CodGr__286302EC" Association="Self.FK__TGradoTDo__CodGr__286302EC">
+            <End Role="TGrado" EntitySet="TGrado" />
+            <End Role="TGradoTDocente" EntitySet="TGradoTDocente" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProyectosDBModelStoreContainer" CdmEntityContainer="ProyectosContext">
+          <EntitySetMapping Name="TAlumno">
+            <EntityTypeMapping TypeName="ProyectosDBModel.Alumno">
+              <MappingFragment StoreEntitySet="TAlumno">
+                <ScalarProperty Name="DniAlumno" ColumnName="DniAlumno" />
+                <ScalarProperty Name="Appaterno" ColumnName="Appaterno" />
+                <ScalarProperty Name="Apmaterno" ColumnName="Apmaterno" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="FecNacimiento" ColumnName="FecNacimiento" />
+                <ScalarProperty Name="DniApoderado" ColumnName="DniApoderado" />
+                <ScalarProperty Name="CodGrado" ColumnName="CodGrado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TApoderado">
+            <EntityTypeMapping TypeName="ProyectosDBModel.Apoderado">
+              <MappingFragment StoreEntitySet="TApoderado">
+                <ScalarProperty Name="DniApoderado" ColumnName="DniApoderado" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Contrasenia" ColumnName="Contrasenia" />
+                <ScalarProperty Name="Appaterno" ColumnName="Appaterno" />
+                <ScalarProperty Name="Apmaterno" ColumnName="Apmaterno" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="Parentesco" ColumnName="Parentesco" />
+                <ScalarProperty Name="TelCelu" ColumnName="TelCelu" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="FecNacimiento" ColumnName="FecNacimiento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TAsistencia">
+            <EntityTypeMapping TypeName="ProyectosDBModel.Asistencia">
+              <MappingFragment StoreEntitySet="TAsistencia">
+                <ScalarProperty Name="CodAsistencia" ColumnName="CodAsistencia" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Hora" ColumnName="Hora" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TDocente">
+            <EntityTypeMapping TypeName="ProyectosDBModel.Docente">
+              <MappingFragment StoreEntitySet="TDocente">
+                <ScalarProperty Name="DniDocente" ColumnName="DniDocente" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+                <ScalarProperty Name="Appaterno" ColumnName="Appaterno" />
+                <ScalarProperty Name="Apmaterno" ColumnName="Apmaterno" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="TelCelu" ColumnName="TelCelu" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="FecNacimiento" ColumnName="FecNacimiento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TGrado">
+            <EntityTypeMapping TypeName="ProyectosDBModel.Grado">
+              <MappingFragment StoreEntitySet="TGrado">
+                <ScalarProperty Name="CodGrado" ColumnName="CodGrado" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Seccion" ColumnName="Seccion" />
+                <ScalarProperty Name="Nivel" ColumnName="Nivel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TGradoTDocente">
+            <EntityTypeMapping TypeName="ProyectosDBModel.GradoDocente">
+              <MappingFragment StoreEntitySet="TGradoTDocente">
+                <ScalarProperty Name="CodGradoDocente" ColumnName="CodGradoDocente" />
+                <ScalarProperty Name="CodGrado" ColumnName="CodGrado" />
+                <ScalarProperty Name="DniDocente" ColumnName="DniDocente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TAsistenciaTAlumno">
+            <EntityTypeMapping TypeName="ProyectosDBModel.AsistenciaTAlumno">
+              <MappingFragment StoreEntitySet="TAsistenciaTAlumno">
+                <ScalarProperty Name="CodAsistencia" ColumnName="CodAsistencia" />
+                <ScalarProperty Name="DniAlumno" ColumnName="DniAlumno" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
